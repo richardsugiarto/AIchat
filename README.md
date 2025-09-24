@@ -2,7 +2,7 @@
 
 Aichat is a web application that allows you to chat with Google's Gemini LLM. With Aichat, you can type any text and receive real-time responses from Gemini, featuring a streaming interface for a smooth and interactive experience.
 
-![Aichat Screenshot](media/aichat_v0.png)
+![Aichat Screenshot](media/aichat_v0_1.png)
 
 ## Features
 

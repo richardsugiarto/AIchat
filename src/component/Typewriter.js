@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 const Typewriter = ({ text, delay = 100 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,7 +21,7 @@ const Typewriter = ({ text, delay = 100 }) => {
             //setCurrentText('');
         }
     }, [currentIndex, text, delay, animText]);
-    return (<><span style={{ fontSize: '20px', whiteSpace: "pre-line" }}>{currentText}</span><br /></>);
+    return (<ReactMarkdown>{currentText}</ReactMarkdown>);
 }
 
 export default Typewriter;
