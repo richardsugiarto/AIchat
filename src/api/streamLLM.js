@@ -1,9 +1,7 @@
 import clarinet from "clarinet";
+import { modelSelector } from "../constant";
 
-const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?key=${GEMINI_API_KEY}`;
-
-const streamGoogleLLM = async function* (prompt) {
+const streamLLM = async function* (prompt, model) {
     const requestBody = {
         contents: [
             {
@@ -11,8 +9,9 @@ const streamGoogleLLM = async function* (prompt) {
             },
         ],
     };
+    const url_params = modelSelector.find(item => item.value === model)?.url || "";
     try {
-        const response = await fetch(url, { method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify(requestBody) });
+        const response = await fetch(url_params, { method: "POST", headers: { "Content-type": "application/json" }, body: JSON.stringify(requestBody) });
         if (!response.ok) {
             yield "Something went wrong with API request. Please try again.";
             return; // stop generator
@@ -86,9 +85,9 @@ const streamGoogleLLM = async function* (prompt) {
         }
     }
     catch (err) {
-        yield "Something went wrong with Gemini Streaming. Please try again";
+        yield "Something went wrong with Streaming. Please try again";
         return;
     }
 }
 
-export default streamGoogleLLM;
+export default streamLLM;
