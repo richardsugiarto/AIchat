@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { Grid, TextField, Button, Box, Skeleton, Typography } from '@mui/material';
+import { Grid, TextField, Button, Box, Skeleton, Typography, Select, MenuItem } from '@mui/material';
 import Typewriter from './component/Typewriter';
 import useGoogleLLM from './api/useGoogleLLM';
 import { useMutation } from "@tanstack/react-query";
-import streamGoogleLLM from './api/streamGoogleLLM';
+import streamLLM from './api/streamLLM';
+import { modelSelector } from './constant';
 import { useEffect } from 'react';
+
+const modelDefault = modelSelector[0]?.value;
 
 const Chat = () => {
     const [inputChat, setInputChat] = useState('');
@@ -12,6 +15,10 @@ const Chat = () => {
     const [animText, setAnimText] = useState([]);
 
     const [isStreaming, setIsStreaming] = useState(false);
+
+    const [showModelSelector, setShowModelSelector] = useState(true);
+
+    const [model, setModel] = useState(modelDefault);
 
     const googleLLMMutation = useMutation({
         mutationFn: useGoogleLLM,
@@ -37,12 +44,13 @@ const Chat = () => {
     };
 
     const handleSend = async () => {
+        setShowModelSelector(false);
         setAnimText(prevAnimText => [...prevAnimText, { prompt: inputChat, text: "" }]);
         //googleLLMMutation.mutate(inputChat);
         try {
             setIsStreaming(true);
             setInputChat("");
-            for await (const chunk of streamGoogleLLM(inputChat)) {
+            for await (const chunk of streamLLM(inputChat, model)) {
                 //console.log("chunk:", chunk);
                 //console.log(typeof(chunk));
                 setAnimText(prevAnimText => {
@@ -66,14 +74,32 @@ const Chat = () => {
         }
     };
 
+    const handleModelChange = (event) => {
+        setModel(event.target.value);
+    };
+
     return (
         <Grid container spacing={2}>
             <Grid size={{ xs: 0, md: 2 }}>
+                <Select
+                    labelId="model-label"
+                    label="Model"
+                    id="model-select"
+                    value={model}
+                    onChange={handleModelChange}
+                    disabled={!showModelSelector}
+                    sx={{ my: '10px', position: 'fixed', left: '10px' }}
 
+                >
+                    {modelSelector.map(({ label, value }) => (
+                        <MenuItem value={value}>{label}</MenuItem>
+                    ))}
+                </Select>
             </Grid>
             <Grid size={{ xs: 12, md: 8 }} sx={{ display: 'flex', flexDirection: 'column', position: 'relative', mx: "10px" }}>
-                <Typography variant="h3" sx={{ display: "flex", justifyContent: "center" }}>AI Chat</Typography>
-                <Box style={{ mb: '200px' }}>
+                <Typography variant="h3" sx={{ display: "flex", justifyContent: "center", my: "10px" }}>AI Chat </Typography>
+
+                <Box sx={{ mb: '100px' }}>
 
                     {animText.map(({ prompt, text }) =>
                         <>

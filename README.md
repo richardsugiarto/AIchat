@@ -1,12 +1,12 @@
 # Aichat
 
-Aichat is a web application that allows you to chat with Google's Gemini LLM. With Aichat, you can type any text and receive real-time responses from Gemini, featuring a streaming interface for a smooth and interactive experience.
+Aichat is a web application that allows you to chat with Google's Gemini/Ollama LLM. With Aichat, you can type any text and receive real-time responses from Gemini/Ollama, featuring a streaming interface for a smooth and interactive experience.
 
-![Aichat Screenshot](media/aichat_v0_1.png)
+![Aichat Screenshot](media/aichat_v0_2.png)
 
 ## Features
 
-- **Chat with Gemini LLM**: Send any message and get responses from Google's language model.  
+- **Chat with Gemini/Ollama LLM**: Send any message and get responses from Google's/Ollama language model.  
 - **Streaming Responses**: Watch responses appear in real-time as they are generated.  
 - **Simple and Intuitive UI**: Focus on chatting without distractions.  
 - **Docker Support**: Run Aichat easily with Docker.  
@@ -17,8 +17,13 @@ Aichat is a web application that allows you to chat with Google's Gemini LLM. Wi
 
 - Node.js (v18+ recommended)  
 - NPM or Yarn  
-- Google Gemini API key  
+- Google Gemini API key (if using Gemini)  
 - Docker (optional, if you want to run via container)  
+
+## Using Ollama Instead of Gemini
+
+If you want to use Ollama instead of Google Gemini, you can use this backend: [Ollama Backend](https://github.com/richardsugiarto/ollama_backend).  
+Simply set up the Ollama backend and configure Aichat to point to it for responses.  
 
 ## Docker Usage
 
@@ -38,3 +43,4 @@ docker stop aichat_container
 
 # Remove the container
 docker rm aichat_container
+```
